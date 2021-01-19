@@ -6,10 +6,36 @@ export const TodoList = props => {
 	const [todoList, setTodoList] = useState([]);
 	let [newTask, setNewTask] = useState("");
 
+	useEffect(
+		() =>
+			fetch(
+				"https://assets.breatheco.de/apis/fake/todos/user/alesanchezr"
+			)
+				.then(r => r.json())
+				.then(data => setTodoList(data)),
+		[]
+	);
+
 	const handleTask = () => {
 		if (event.key === "Enter" && newTask != "") {
-			setTodoList(todoList.concat(newTask));
-			setNewTask("");
+			useEffect(
+				() =>
+					fetch(
+						"https://assets.breatheco.de/apis/fake/todos/user/alesanchezr",
+						{
+							method: "PUT",
+							body: JSON.stringify(todoList),
+							headers: { "Content-type": "aplications/json" }
+						}
+					)
+						.then(r => r.json())
+						.then(data => {
+							debugger;
+							setTodoList(todoList.concat(newTask));
+							setNewTask("");
+						}),
+				[]
+			);
 		}
 	};
 
@@ -28,7 +54,7 @@ export const TodoList = props => {
 			<ul>
 				{todoList.map((item, index) => (
 					<li key={index}>
-						{item}
+						{item.label} : {item.done ? "yes" : "no"}
 						<label
 							onClick={() => {
 								deleteTask(item);
