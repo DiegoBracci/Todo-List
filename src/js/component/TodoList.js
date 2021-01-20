@@ -18,6 +18,12 @@ export const TodoList = props => {
 
 	const handleTask = () => {
 		if (event.key === "Enter" && newTask != "") {
+			// setNewTask("");
+			// function addTask() {
+			// 	todoList.concat(newTask);
+			// }
+			//setTodoList(todoList.concat(newTask));
+
 			useEffect(
 				() =>
 					fetch(
@@ -30,9 +36,7 @@ export const TodoList = props => {
 					)
 						.then(r => r.json())
 						.then(data => {
-							debugger;
 							setTodoList(todoList.concat(newTask));
-							setNewTask("");
 						}),
 				[]
 			);
